@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>First Vue.js app</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-vue/2.22.0/bootstrap-vue.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vuex/2.1.1/vuex.min.js"></script>
+</head>
+<body>
+	<div id="app">
+		<h1>DB SCAN</h1>
+    <div style="display: block; position: relative;">
+      <input class="searchbar-input" type="text" />
+    </div>
+    <!-- <h2>{{ getMessage() }}</h2> -->
+    <!-- <button @click="changeMessage()">Change</button> -->
+	</div>
+
+	<script>
+		var app = new Vue({
+			el: "#app",
+			data: {
+				message: "Hello World!"
+			},
+      computed: {
+
+      },
+      'store': new Vuex.Store(
+        {
+          state: {
+            count: 0,
+            message: 'Hello there!'
+          },
+          getters: {
+            getMessage: state => state.message,            
+          },
+          mutations: {
+            updateMessage (state) {
+              state.message = 'Hi!'
+            }
+          }
+        }
+      ),
+      'methods': {
+        changeMessage(){
+          this.$store.commit('updateMessage')
+        },
+        getMessage(){ 
+          return this.$store.getters.getMessage
+        },
+        'buttonClick': function() {
+          this.$store.commit('increment')
+        }
+      }
+		})
+	</script>
+</body>
+</html>
+
+<style>
+  body {
+    background-color: #191B20;
+    color: #9198aa;
+    padding: 15%;
+    text-align: center;
+  }
+  .searchbar-input {
+    width: 100%;
+    font-size: 18px;
+    border: none;
+    border-radius: 16px;
+    box-shadow: none;
+    padding: 10px 15px;
+    outline-color: #1997c6;
+    outline-style:none;
+    background-color: #434857;
+    color: #b2b3b4;
+  }
+
+</style>
