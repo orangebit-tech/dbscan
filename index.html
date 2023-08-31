@@ -1,80 +1,174 @@
 <!DOCTYPE html>
-<html>
 <head>
-	<title>First Vue.js app</title>
-	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-vue/2.22.0/bootstrap-vue.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vuex/2.1.1/vuex.min.js"></script>
+  <title>DB SCAN</title>
+    <!-- Import Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="icon" type="image/x-icon" href="./164533.png">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap" rel="stylesheet">
+  <!-- FONT AWESOME -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Import Vue.JS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script> -->
+  <!-- Import Bootstrap-vue -->
+  <!--  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-vue/2.22.0/bootstrap-vue.min.js"></script> -->
+  <!-- Import Vuex -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vuex/2.1.1/vuex.min.js"></script>
+  <!-- Import database data -->
+    <script type="text/javascript" src="./source/imweb.js"></script>
+    <script type="text/javascript" src="./source/imdc.js"></script>
+  <!-- Import jQuery -->
+  <!--   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+  <!-- Import Vue-csv-import -->
+  <!--  <script type="text/javascript" src="https://oss.sheetjs.com/sheetjs/xlsx.full.min.js"></script> -->
+  <!-- Import FS -->
+  <!--  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/BrowserFS/2.0.0/browserfs.min.js"></script> -->
+  <!-- Import RequireJS -->
+  <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+  <!-- Import PATH -->
+    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/path.js/0.8.4/path.min.js"></script> -->
 </head>
-<body>
-	<div id="app">
-		<h1>DB SCAN</h1>
-    <div style="display: block; position: relative;">
-      <input class="searchbar-input" type="text" />
-    </div>
-    <!-- <h2>{{ getMessage() }}</h2> -->
-    <!-- <button @click="changeMessage()">Change</button> -->
-	</div>
-
-	<script>
-		var app = new Vue({
-			el: "#app",
-			data: {
-				message: "Hello World!"
-			},
-      computed: {
-
-      },
-      'store': new Vuex.Store(
-        {
-          state: {
-            count: 0,
-            message: 'Hello there!'
-          },
-          getters: {
-            getMessage: state => state.message,            
-          },
-          mutations: {
-            updateMessage (state) {
-              state.message = 'Hi!'
-            }
-          }
-        }
-      ),
-      'methods': {
-        changeMessage(){
-          this.$store.commit('updateMessage')
-        },
-        getMessage(){ 
-          return this.$store.getters.getMessage
-        },
-        'buttonClick': function() {
-          this.$store.commit('increment')
-        }
-      }
-		})
-	</script>
-</body>
-</html>
-
-<style>
-  body {
-    background-color: #191B20;
-    color: #9198aa;
-    padding: 15%;
-    text-align: center;
-  }
-  .searchbar-input {
-    width: 100%;
-    font-size: 18px;
-    border: none;
-    border-radius: 16px;
-    box-shadow: none;
-    padding: 10px 15px;
-    outline-color: #1997c6;
-    outline-style:none;
-    background-color: #434857;
-    color: #b2b3b4;
-  }
-
+<style type="text/css">
+  @import "styles.css";
 </style>
+<html>
+  <body class="body">
+    <div style="display: flex;position: absolute; top: 5px; left: -5px;">
+      <div style="width: 88px; height: 85px; display: flex;">
+        <img style="width: 85px;" src="./1348005528.svg">
+      </div>
+      <div style="margin-top: 19px; margin-left: -20px; font-size: 20px; color: #434857">
+        AppOps
+      </div>
+    </div>
+  	<div class="hide" :class="{'show': pageLoaded == true}" id="app">
+      <div class="searchbar m-b">
+        <h1 style="color: #1997c6; margin-bottom: 0px;">DB SCAN </h1><span style="font-size: 14px; color: #434857;"> v 0.3 - 08-03-2023</span>
+        <!-- SEARCHBAR -->
+        <div style="display: block; position: relative; margin-bottom: 10px; margin-top: 10px;">
+          <input class="searchbar-input" v-model="searchQuery" type="text" />
+        </div>
+        <!-- FILTERS -->
+        <div class="filters">
+           <div class="search-in">
+            <div class="label">
+              <div @click="searchInColumns == true ? searchInColumns = false : ''" class="option">
+                <span style="cursor: pointer">
+                  <label for="searchtb">Search tables</label>
+                </span>
+                <input class="styled-checkbox" id="searchtb" :value="true" :checked="searchInColumns == true ? false : true" :disabled="searchInColumns == false ? true : false" type="checkbox"> 
+              </div>
+              <div class="option">
+                <span style="cursor: pointer">
+                  <label for="key">Search columns</label>
+                </span>
+                <input class="styled-checkbox" v-model="searchInColumns" id="key" value="filter" type="checkbox"> 
+              </div>
+            </div>
+          </div>
+          <!-- BUTTONS -->
+      <div v-if="pageLoaded == true"  class="buttons m-b">
+        <div class="show-options"><span class="label"></span>
+          <div class="option">
+            <span style="cursor: pointer"><label for="columns2"> Display Columns </label></span>
+              <input class="styled-checkbox" v-model="showColumns" :disabled="searchInColumns == true || keysOnly == true"  id="columns2" value="showColumns" type="checkbox"> 
+          </div>
+          <div class="option">
+            <span style="cursor: pointer"><label for="keysOnly"> Show Keys Only </label></span>
+            <input class="styled-checkbox" id="keysOnly" v-model="keysOnly" value="keysOnly" type="checkbox">
+          </div>
+        </div>
+      </div>
+        </div>
+      </div>
+      
+      <div v-if="pageLoaded == true"  class="search-results">
+        <div class="wait-view" v-if="wait == true">
+           <div> Loading...</div>
+        </div>
+        <div>
+          <!-- ALL DATABASES -->
+          <div class="layoutAll" v-if="selectedDB && selectedDB == 'All'">
+            <!-- DB -->
+            <div class="db" v-for="(db, index) in DBs" :key="index">
+              <h3> {{db}} </h3>
+              <div v-if="
+                (
+                  Object.keys($store.getters.getResultsOnly[db]).length > 0 
+                  || searchQuery.length < 3
+                )" style="text-align: left">
+                <!-- TABLE -->
+                <div v-for="(table,indx) in Object.keys($store.getters.getResultsOnly[db])" 
+                  :key="indx" class="table" 
+                  :class="{'display-none': $store.getters.getResultsOnly[db][table].length ==0 && (searchInColumns == true) && searchQuery.length > 2}"
+                  :style="[indx > limit ? {'display': 'none'} : '']"
+                  >
+                  <template v-if="indx <= limit">
+                    <div v-if="
+                      (Object.keys($store.getters.getResultsOnly[db][table]).length == 0 && searchInColumns == false)
+                      || (Object.keys($store.getters.getResultsOnly[db][table]).length >0 && showColumns == true)
+                      || searchQuery.length < 3
+                      || (Object.keys($store.getters.getResultsOnly[db][table]).length > 0 && showColumns == false)">
+                    <h4>
+                      <div style="display:inline-block" v-html="highlight(table)"></div>
+                    </h4>
+                    <!-- COLUMN -->
+                    <div v-if="showColumns == true">
+                      <div :class="{'key-selected': col == keySelected}" class="column" v-for="(col, ind) in $store.getters.getResultsOnly[db][table]">
+                        <div>
+                          <i @click="selectKey(col, table, db)" v-if="(col[0] == 'P' || col[0] == 'F') && col[1]=='K'" class="fa fa-key" :class="{'pk': col[0] == 'P'}" aria-hidden="true"></i>
+                          <div style="display: inline-block;" >
+                            <span style="cursor: pointer; color: #1997c6; font-weight: bold;" v-if="col == keySelected" @click='selectKey("")'>
+                              Unselect
+                            </span>
+                            {{' '+$store.getters.getSource[db][table][col].COLUMN_NAME}}
+                          </div>
+                          <div style="float: right;margin-right: 8px; ">
+                            <div class="col-info">
+                              <!-- Column Info TYPE -->
+                              <div>
+                                <span style="color: #1997c6; float: right;">
+                                  {{$store.getters.getSource[db][table][col].DATA_TYPE}}
+                                  <span style="color: #cb8419; opacity: 0.8; ">
+                                    {{
+                                    $store.getters.getSource[db][table][col].CHARACTER_MAXIMUM_LENGTH !== 'NULL' 
+                                    ? '('+ 
+                                      $store.getters.getSource[db][table][col].CHARACTER_MAXIMUM_LENGTH 
+                                      +')' 
+                                    : ''
+                                  }}
+                                  </span>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- END COLUMN -->
+                  </div>
+                  </template>
+                  
+                </div>
+                <!-- END TABLE -->
+              </div>
+              <div style="text-align: left; padding-left: 10px;" v-else>
+                No Results Found
+              </div>
+            </div>
+            <!--END DB -->
+          </div>
+           <div style="margin: 25px; font-size: 22px; cursor: pointer" @click="loadMoreResults()">
+              Load More
+            </div>
+        </div>
+      </div>
+  	</div>
+    <script type="text/javascript" src="./vue.script.js"></script>
+  </body>
+  <footer style="display: flex">
+    <div style="font-size: 14px; margin-right: 5px;">v 0.3</div>
+    <div style="font-size: 14px;">08-03-2023</div>
+  </footer>
+</html>
